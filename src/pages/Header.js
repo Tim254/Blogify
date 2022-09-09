@@ -15,10 +15,10 @@ const Header = () => {
     const [show, setShow] = useState(false)
   return (
     <div>
-         <MDBNavbar expand='lg' light style={{ backgroundColor: '#e3f2fd' }}>
+         <MDBNavbar expand='lg' light style={{ backgroundColor: '#541b1b' }}>
         <MDBContainer fluid>
           <MDBNavbarBrand href='/'>
-            <img src="/src/images/logo.JPG" style={{height: "30px"}}/>
+            <img src="/images/logo.JPG" style={{height: "30px"}}/>
           </MDBNavbarBrand>
           <MDBNavbarToggler
             type='button'
@@ -26,6 +26,7 @@ const Header = () => {
             aria-controls='navbarColor02'
             aria-expanded='false'
             aria-label='Toggle navigation'
+            style={{color: "#fff"}}
             onClick={() => setShow(!show)}
           >
             <MDBIcon icon='bars' fas />
@@ -33,18 +34,15 @@ const Header = () => {
           <MDBCollapse show={show} navbar>
             <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
               <MDBNavbarItem className='active'>
-                <MDBNavbarLink aria-current='page' href='/'>
+                <MDBNavbarLink aria-current='page' href='/' style={{color: "#fff"}}>
                   Home
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href='/About'>About</MDBNavbarLink>
+                <MDBNavbarLink href='/addBlog' style={{color: "#fff"}}>Add Blog</MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink href='#'>About</MDBNavbarLink>
+                <MDBNavbarLink href='/about' style={{color: "#fff"}}>About</MDBNavbarLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
