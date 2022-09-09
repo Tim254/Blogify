@@ -1,9 +1,12 @@
 {
-    "posts": [
-      { "id": 1, "title": "json-server", "author": "typicode" }
-    ],
-    "comments": [
-      { "id": 1, "body": "some comment", "postId": 1 }
-    ],
-    "profile": { "name": "typicode" }
-  }
+  "blogs": [
+    {
+      "title": "ertyhjk",
+      "description": "handlesubmit",
+      "category": "Fashion",
+      "imageURL": "http://res.cloudinary.com/dscyw0ewi/image/upload/v1662685619/vjkxghikuzqs08di7xhi.jpg",
+      "date": "09/09/2022",
+      "id": 1
+    }
+  ]
+}

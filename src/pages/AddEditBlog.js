@@ -17,30 +17,67 @@ const AddEditBlog = () => {
   const [categoryErrMsg, setCategoryErrMsg] = useState(null);
   const { title, description, category, imageURL } = formValue;
   const navigate = useNavigate();
-  const handlesubmit = (e) => {};
+  const getDate = () => {
+    let today = new Date()
+    let dd = String(today.getDate()).padStart(2, "0")
+    let mm = String(today.getMonth()+ 1).padStart(2, "0")
+    let yyyy = today.getFullYear();
 
-  const onInputChange =(e) => {}
+    today = mm + "/" + dd + "/" + yyyy
+    return today;
 
-  const onUploadImage =(file) => {
-    console.log("file", file)
-    const formData = new FormData();
-    formData.append("file", file)
-    formData.append("upload_preset", "p5o1yy3p")
-    axios.post("http://api.cloudinary.com/v1_1/dscyw0ewi/image/upload", formData).then((resp) => {
-        toast.info("image Uploaded Succesffully")
-        setFormValue({...formValue, imageURL: resp.data.url})
-    }).catch((err) => {
-        toast.info("something went wrong")
-    })
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!category) {
+      setCategoryErrMsg("Please select a category");
+    }
+    if(title && description && imageURL && category){
+        const currentDate = getDate();
+        const updatedBlogData = {...formValue, date: currentDate}
+        const response = await axios.post("http://localhost:5000/blogs", updatedBlogData)
+        if(response.status === 201) {
+            toast.success("Blog created Successfully")
+        } else {
+            toast.error ("Something went wrong")
+        }
+        setFormValue({title: "", description: "", category: "", imageURL: ""})
+        navigate("/")
 
-  const onCategoryChange = () => {}
+    }
+  };
+
+  const onInputChange = (e) => {
+    let { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
+  };
+
+  const onUploadImage = (file) => {
+    console.log("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "p5o1yy3p");
+    axios
+      .post("http://api.cloudinary.com/v1_1/dscyw0ewi/image/upload", formData)
+      .then((resp) => {
+        toast.info("image Uploaded Succesffully");
+        setFormValue({ ...formValue, imageURL: resp.data.url });
+      })
+      .catch((err) => {
+        toast.info("something went wrong");
+      });
+  };
+
+  const onCategoryChange = (e) => {
+    setCategoryErrMsg(null);
+    setFormValue({ ...formValue, category: e.target.value });
+  };
   return (
     <MDBValidation
       className="row g-3"
       style={{ marginTop: "100px" }}
       noValidate
-      onSubmit={handlesubmit}
+      onSubmit={handleSubmit}
     >
       <p className="fs-2 fw-bold">Add Blog</p>
       <div
@@ -71,7 +108,7 @@ const AddEditBlog = () => {
           label="Description"
           validation="Please provide a Description"
           textarea
-          rows = {4}
+          rows={4}
           invalid
         />
         <br />
@@ -83,16 +120,34 @@ const AddEditBlog = () => {
           invalid
         />
         <br />
-        <select className="categoryDrpDown" onChange={onCategoryChange} value={category}>
-            <option>Please select category</option>
-            {options.map((option, index) => (
-                <option value={option || ""} key={index}>{option}</option>
-            ))}
+        <select
+          className="categoryDrpDown"
+          onChange={onCategoryChange}
+          value={category}
+        >
+          <option>Please select category</option>
+          {options.map((option, index) => (
+            <option value={option || ""} key={index}>
+              {option}
+            </option>
+          ))}
         </select>
-        <br/>
-        <br/>
-        <MDBBtn type="submit" style={{marginRight: "10px"}}>Add</MDBBtn>
-        <MDBBtn color="danger" style={{marginRight: "10px"}} onClick={() => navigate("/")}  >Go Back</MDBBtn>
+        {categoryErrMsg && (
+          <div className="categoryErrorMsg">{categoryErrMsg}</div>
+        )}
+
+        <br />
+        <br />
+        <MDBBtn type="submit" style={{ marginRight: "10px" }} >
+          Add
+        </MDBBtn>
+        <MDBBtn
+          color="danger"
+          style={{ marginRight: "10px" }}
+          onClick={() => navigate("/")}
+        >
+          Go Back
+        </MDBBtn>
       </div>
     </MDBValidation>
   );
